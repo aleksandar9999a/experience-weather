@@ -12,7 +12,6 @@
 
 <script>
 export default {
-  name: "wSearch",
   data: function() {
     return {
       searchContent: ""
