@@ -49,19 +49,22 @@ export default {
   methods: {
     async handleSubmit() {
       this.weather = await searchInfoByLocation(this.searchContent);
+    },
+    loadCurrentLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async pos => {
+          const latitude = pos.coords.latitude;
+          const longitude = pos.coords.longitude;
+
+          this.weather = await searchInfoByCurrLocation(latitude, longitude);
+        });
+      } else {
+        this.weather.message = "Access to GPS is denied!";
+      }
     }
   },
   created: function() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async pos => {
-        const latitude = pos.coords.latitude;
-        const longitude = pos.coords.longitude;
-        
-        this.weather = await searchInfoByCurrLocation(latitude, longitude);
-      });
-    } else {
-      this.weather.message = "Access to GPS is denied!";
-    }
+    this.loadCurrentLocation();
   },
   mounted: async function() {
     await Font.loadAsync({
