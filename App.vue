@@ -1,7 +1,9 @@
 <template>
   <nb-container v-if="isLoaded">
     <image-background :source="image" class="image-container">
-      <w-search />
+      <nb-container class="custom-container">
+        <w-search />
+      </nb-container>
     </image-background>
   </nb-container>
 </template>
@@ -39,5 +41,13 @@ export default {
 <style>
 .image-container {
   flex: 1;
+}
+
+.custom-container {
+  background-color: transparent;
+  width: 80%;
+  margin: auto;
+  left: 10%;
+  justify-content: center;
 }
 </style>
