@@ -4,7 +4,7 @@
       <nb-container class="custom-container">
         <view class="text-container" v-if="weather">
           <text class="location" v-if="weather.sys">{{ weather.name }}, {{ weather.sys.country }}</text>
-          <text class="temp" v-if="weather.main">{{weather.main.temp}}</text>
+          <text class="temp" v-if="weather.main">{{Math.floor(weather.main.temp)}}°C</text>
         </view>
         <view class="text-container" v-if="weather.message">
           <text class="temp">{{weather.message}}</text>
@@ -28,7 +28,10 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import summer from "./assets/summer.jpg";
 import winter from "./assets/winter.jpg";
-import { searchInfoByLocation } from "./services/weather.service";
+import {
+  searchInfoByLocation,
+  searchInfoByCurrLocation
+} from "./services/weather.service";
 Vue.use(VueNativeBase);
 
 export default {
@@ -38,12 +41,26 @@ export default {
       isLoaded: false,
       image: summer,
       searchContent: "",
-      weather: {}
+      weather: {
+        message: "Try to search your city!"
+      }
     };
   },
   methods: {
     async handleSubmit() {
       this.weather = await searchInfoByLocation(this.searchContent);
+    }
+  },
+  created: function() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const latitude = pos.coords.latitude;
+        const longitude = pos.coords.longitude;
+        
+        this.weather = await searchInfoByCurrLocation(latitude, longitude);
+      });
+    } else {
+      this.weather.message = "Access to GPS is denied!";
     }
   },
   mounted: async function() {
@@ -70,21 +87,21 @@ export default {
 }
 
 .text-container {
-    margin-top: 0%;
-    margin-bottom: 50%;
-  }
+  margin-top: 0%;
+  margin-bottom: 50%;
+}
 
-  .location {
-    text-align: center;
-    font-size: 20px;
-  }
+.location {
+  text-align: center;
+  font-size: 20px;
+}
 
-  .temp {
-    text-align: center;
-    font-size: 50px;
-  }
+.temp {
+  text-align: center;
+  font-size: 50px;
+}
 
-  .custom-btn {
+.custom-btn {
   width: 50%;
   margin-top: 10px;
   margin-left: auto;
