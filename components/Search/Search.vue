@@ -1,5 +1,5 @@
 <template>
-  <nb-container class="custom-container">
+  <view>
     <nb-item class="custom-item">
       <nb-icon active name="search" />
       <nb-input placeholder="Search" v-model="searchContent" class="custom-input" />
@@ -7,7 +7,7 @@
     <nb-button :onPress="handleSubmit" rounded class="custom-btn">
       <nb-text>Search</nb-text>
     </nb-button>
-  </nb-container>
+  </view>
 </template>
 
 <script>
@@ -25,14 +25,6 @@ export default {
 </script>
 
 <style>
-.custom-container {
-  background-color: transparent;
-  width: 80%;
-  margin: auto;
-  left: 10%;
-  justify-content: center;
-}
-
 .custom-btn {
   width: 50%;
   margin-top: 10px;
