@@ -66,6 +66,15 @@ export default {
   created: function() {
     this.loadCurrentLocation();
   },
+  updated: function() {
+    if (this.weather.main) {
+        if (this.weather.main.temp > 18) {
+          this.image = summer;
+        } else {
+          this.image = winter;
+        }
+      }
+  },
   mounted: async function() {
     await Font.loadAsync({
       Roboto: require("native-base/Fonts/Roboto.ttf"),
