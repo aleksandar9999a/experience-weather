@@ -2,7 +2,8 @@
   <nb-container v-if="isLoaded">
     <image-background :source="image" class="image-container">
       <nb-container class="custom-container">
-        <w-search />
+        <display />
+        <search />
       </nb-container>
     </image-background>
   </nb-container>
@@ -15,13 +16,17 @@ import * as Font from "expo-font";
 import { Ionicons } from "@expo/vector-icons";
 import summer from "./assets/summer.jpg";
 import winter from "./assets/winter.jpg";
-import wSearch from "./components/Search/Search";
+import Search from "./components/Search/Search";
+import Display from "./components/Display/Display";
 
 Vue.use(VueNativeBase);
 
 export default {
   name: "App",
-  components: { wSearch },
+  components: {
+    Search,
+    Display
+  },
   data: function() {
     return {
       isLoaded: false,
